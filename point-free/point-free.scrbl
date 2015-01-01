@@ -222,7 +222,7 @@ These forms allow for short definitions of point-free functions using @racket[wi
   Definition form of @racket[wind]. Binds @racket[id] as a wound form of @racket[f], with @racket[(pre ...)]
   used as the input transforming functions and @racket[(post ...)] used as the output transformers.
   @examples[#:eval the-eval
-    (define/wind pythagoras + sqr sqrt)
+    (define/wind pythagoras + (sqr sqr) (sqrt))
     (pythagoras 3 4)
     (pythagoras 5 12)
     ]}
