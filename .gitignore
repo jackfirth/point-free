@@ -1,5 +1,5 @@
-compiled/*
-*.bak
-*.html
-*.css
-*.js
+point-free/compiled/*
+point-free/*.bak
+point-free/*.html
+point-free/*.css
+point-free/*.js

@@ -1,4 +1,4 @@
 #lang info
 
-(define name "point-free")
+(define collection 'multi)
 (define deps '("base" "rackunit-lib"))
