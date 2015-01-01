@@ -3,13 +3,15 @@
 @(require scribble/eval
           (for-label "main.rkt"
                      racket/base
-                     racket/function))
+                     racket/function
+                     racket/list))
 
 @title{point-free}
 
 @(define the-eval (make-base-eval))
 @(the-eval '(require "main.rkt"
-                     racket/function))
+                     racket/function
+                     racket/list))
 
 @defmodule[point-free]
 
@@ -118,7 +120,9 @@ Racket functions can accept and return any number of arguments, so there are two
 to combine them - chaining them together in @italic{serial} with @racket[compose], or
 joining them in @italic{parallel} with the @racket[join] function defined in this module.
 These two primitives can be combined in powerful and expressive ways, making point-free
-function definitions much easier for many cases.
+function definitions much simpler in many cases. Note that this has absolutely nothing
+to do with parallel execution or concurrency, this is purely a handy terminology for
+talking about function operations.
 
 @defproc[(join [f (-> any/c any/c)] ...) procedure?]{
   Returns a procedure that accepts one argument for each @racket[f], and returns one value
@@ -128,3 +132,57 @@ function definitions much easier for many cases.
     ((join add1 sub1) 0 0)
     ((join string->symbol even?) "foo" 5)
     ]}
+
+@defproc[(wind-pre [f procedure?] [g (-> any/c any/c)] ...) procedure?]{
+  Returns a procedure that accepts one argument for each @racket[g], calls each @racket[g]
+  on each argument, then passes the results of all the @racket[g]s to @racket[f]. The result
+  of @racket[f] is then the result of the whole procedure. Conceptually, this is equivalent
+  to @racket[(compose f (join g ...))].
+  @examples[#:eval the-eval
+    ((wind-pre < string-length symbol-length) "foo" 'bazz)
+    ((wind-pre + string-length symbol-length) "foo" 'bazz)
+    ]}
+
+@defproc[(wind-post [f procedure?] [g (-> any/c any/c)] ...) procedure?]{
+  Opposite of @racket[wind-pre], instead of calling each @racket[g] on the @italic{inputs}
+  of @racket[f], each @racket[g] is called on the @italic{outputs} of @racket[f]. This is
+  therefore equivalent to @racket[(compose (join g ...) f)].
+  @examples[#:eval the-eval
+    ((wind-post partition length length) number? '(1 2 3 a 4 5 6 "foo" 8))
+    (define (first-and-second lst) (values (first lst) (second lst)))
+    ((wind-post first-and-second string? number?) '(1 2 3 4 5))
+    ]}
+
+@defproc[(wind [f procedure?]
+               [gs (listof (-> any/c any/c))]
+               [hs (listof (-> any/c any/c))])
+         procedure?]{
+  Combination of @racket[wind-pre] and @racket[wind-post]. The procedures in @racket[gs]
+  are used to transform the @italic{inputs} to @racket[f], and the @italic{outputs} are
+  transformed with @racket[hs].
+  @examples[#:eval the-eval
+    (define pythagoras (wind + (list sqr sqr) (list sqrt)))
+    (pythagoras 3 4)
+    (pythagoras 5 12)
+    ]}
+
+@defproc[(join* [f (-> any/c any/c)]) procedure?]{
+  Similar to @racket[join], but instead of accepting several functions and mapping them
+  one-to-one with the inputs of the returned procedure, it accepts only one function and
+  the returned procedure accepts any number of arguments, maps @racket[f] to each of them,
+  then returns the results as values. Essentially a version of @racket[map] that returns
+  multiple values instead of a list.
+  @examples[#:eval the-eval
+    ((join* add1) 1 2 3)
+    ((join* symbol->string) 'foo 'bar)
+    ]}
+
+@defproc[(wind-pre* [f procedure?] [g (-> any/c any/c)]) procedure?]{
+  Analog of @racket[wind-pre] using @racket[join*] instead of @racket[join], returns a
+  new procedure that maps @racket[g] to each of its arguments, then returns the result
+  of calling @racket[f] with those values. Equivalent to @racket[(compose f (join* g))].
+  @examples[#:eval the-eval
+    ((wind-pre* < string-length) "foo" "barrr")
+    ((wind-pre* < string-length) "foooo" "bar")
+    ]}
+
