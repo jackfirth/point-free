@@ -1,7 +1,7 @@
 #lang racket
 
 (provide thrush
-         thrush1
+         thrush+
          thrush*
          define/thrush
          ~>
@@ -11,7 +11,7 @@
 (define (thrush . fs)
   (apply compose (reverse fs)))
 
-(define (thrush1 v . fs)
+(define (thrush+ v . fs)
   ((apply thrush fs) v))
 
 (define ((thrush* . vs) . fs)
@@ -21,5 +21,5 @@
   (define id (thrush expr ...)))
 
 (define λ~> thrush)
-(define ~> thrush1)
+(define ~> thrush+)
 (define ~>* thrush*)
