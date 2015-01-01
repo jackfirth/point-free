@@ -153,15 +153,18 @@ talking about function operations.
     ((wind-post first-and-second string? number?) '(1 2 3 4 5))
     ]}
 
-@defproc[(wind [f procedure?]
-               [gs (listof (-> any/c any/c))]
-               [hs (listof (-> any/c any/c))])
+@defproc[((wind [f procedure?]
+                [g (-> any/c any/c)] ...)
+          [h (-> any/c any/c)] ...)
          procedure?]{
-  Combination of @racket[wind-pre] and @racket[wind-post]. The procedures in @racket[gs]
+  Combination of @racket[wind-pre] and @racket[wind-post]. The procedures in @racket[g]s
   are used to transform the @italic{inputs} to @racket[f], and the @italic{outputs} are
-  transformed with @racket[hs].
+  transformed with @racket[h]s. This function is defined with partial application, the
+  input transformer functions are given first, then the output ones, then finally the
+  wound function is returned.
   @examples[#:eval the-eval
-    (define pythagoras (wind + (list sqr sqr) (list sqrt)))
+    (define (sqr x) (* x x))
+    (define pythagoras ((wind + sqr sqr) sqrt))
     (pythagoras 3 4)
     (pythagoras 5 12)
     ]}
@@ -182,7 +185,44 @@ talking about function operations.
   new procedure that maps @racket[g] to each of its arguments, then returns the result
   of calling @racket[f] with those values. Equivalent to @racket[(compose f (join* g))].
   @examples[#:eval the-eval
-    ((wind-pre* < string-length) "foo" "barrr")
-    ((wind-pre* < string-length) "foooo" "bar")
+    (define string< (wind-pre* < string-length))
+    (string< "foo" "barrr" "bazzzzz")
+    (string< "foooooo" "barrr" "baz")
     ]}
 
+@defproc[(wind-post* [f procedure?] [g (-> any/c any/c)]) procedure?]{
+  Analog of @racket[wind-post] using @racket[join*] instead of @racket[join], returns a
+  new procedure that first calls @racket[f] with its arguments, then maps @racket[g] to
+  the resulting values and returns the mapped values. Equivalent to
+  @racket[(compose (join* g) f)].
+  @examples[#:eval the-eval
+    (define partition-counts (wind-post* partition length))
+    (partition-counts symbol? '(a b 1 2 3 4 5 c 5 7 8 d 8 e))
+    (partition-counts even? '(1 2 3 4 5 6 7 8 9 10))
+    ]}
+
+@defproc[(wind* [f procedure?]
+                [g (-> any/c any/c)]
+                [h (-> any/c any/c)])
+         procedure?]{
+  Analog of @racket[wind] using @racket[join*] instead of @racket[join], returns a new
+  procedure that first maps @racket[g] to its inputs, passes the mapped values to @racket[f],
+  maps @racket[h] to the outputs of @racket[f], then returns those mapped values. Equivalent
+  to @racket[(compose (join* h) f (join* g))].
+  @examples[#:eval the-eval
+    (define str-append (wind* append string->list list->string))
+    (str-append "foo" "bar" "baz")
+    ]}
+
+@section{Definition forms of winding functions}
+
+These forms allow for short definitions of point-free functions using @racket[wind] and friends.
+
+@defform[(define/wind id f (pre ...) (post ...))]{
+  Definition form of @racket[wind]. Binds @racket[id] as a wound form of @racket[f], with @racket[(pre ...)]
+  used as the input transforming functions and @racket[(post ...)] used as the output transformers.
+  @examples[#:eval the-eval
+    (define/wind pythagoras + sqr sqrt)
+    (pythagoras 3 4)
+    (pythagoras 5 12)
+    ]}
