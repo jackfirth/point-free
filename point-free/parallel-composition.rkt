@@ -1,7 +1,7 @@
 #lang racket
 
-(provide app
-         join
+(provide join
+         join*
          wind-pre
          wind-post
          wind
@@ -19,6 +19,7 @@
 
 (define (app f . vs) (apply f vs))
 (define ((join . fs) . vs) (apply values (map app fs vs)))
+(define ((join* f) . vs) (apply values (map f vs)))
 
 (define (wind-pre f . gs) (compose f (apply join gs)))
 (define (wind-post f . gs) (compose (apply join gs) f))
@@ -37,7 +38,6 @@
 (define-syntax-rule (define/wind1 id f pre ... post)
   (define id (wind1 f pre ... post)))
 
-(define ((join* f) . vs) (apply values (map f vs)))
 (define (wind-pre* f g) (compose f (join* g)))
 (define (wind-post* f g) (compose (join* g) f))
 (define (wind* f g h) (wind-post* (wind-pre* f g) h))
