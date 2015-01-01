@@ -8,7 +8,8 @@
 @title{point-free}
 
 @(define the-eval (make-base-eval))
-@(the-eval '(require "main.rkt"))
+@(the-eval '(require "main.rkt"
+                     racket/function))
 
 @defmodule[point-free]
 
@@ -111,7 +112,7 @@ function. This can be useful for removing boilerplate.
     (average 8 10 12)
     ]}
 
-@section{Point-free parallel function compositio}
+@section{Point-free parallel function composition}
 
 Racket functions can accept and return any number of arguments, so there are two ways
 to combine them - chaining them together in @italic{serial} with @racket[compose], or
