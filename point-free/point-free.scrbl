@@ -1,7 +1,8 @@
 #lang scribble/manual
 
 @(require scribble/eval
-          (for-label "main.rkt"))
+          (for-label "main.rkt"
+                     racket/base))
 
 @title{point-free}
 
