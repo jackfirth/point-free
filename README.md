@@ -1,7 +1,7 @@
 point-free
 ==========
 
-Collection of forms and higher order functions that assist function composition and definition of functions in a point-free style. Point-free functions are functions that don't name your arguments, they're created purely by composing other functions. For example:
+Collection of forms and higher order functions that assist function composition and definition of functions in a point-free style. Point-free functions are functions that don't name their arguments, they're created purely by composing other functions. For example:
 
     (define number->symbol (compose symbol->string number->string))
 
