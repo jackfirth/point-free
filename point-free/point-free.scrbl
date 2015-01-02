@@ -226,3 +226,48 @@ These forms allow for short definitions of point-free functions using @racket[wi
     (pythagoras 3 4)
     (pythagoras 5 12)
     ]}
+
+@defform[(define/wind-pre id f pre ...)]{
+  Definition form of @racket[wind-pre]. Binds @racket[id] as a wound form of @racket[f], with @racket[(pre ...)]
+  used as the input transforming functions.
+  @examples[#:eval the-eval
+    (define/wind-pre sym-and-num->str
+      string-append symbol->string number->string)
+    (sym-and-num->str 'foo 123)
+    ]}
+
+@defform[(define/wind-post id f post ...)]{
+  Definition form of @racket[wind-post]. Binds @racket[id] as a wound form of @racket[f], with @racket[(post ...)]
+  used as the output transforming functions.
+  @examples[#:eval the-eval
+    (define/wind-post first-true-last-false
+      (wind-post partition first last))
+    (first-true-last-false symbol? '(1 2 a b 3 c 4 5 6 d))
+    ]}
+
+@defform[(define/wind* id f pre post)]{
+  Definition form of @racket[wind*]. Binds @racket[id] as a wound form of @racket[f], with @racket[pre] used as
+  the input transforming function and @racket[post] as the output transformer.
+  @examples[#:eval the-eval
+    (define/wind* pythagoras + sqr sqrt)
+    (pythagoras 3 4)
+    (pythagoras 5 12)
+    ]}
+
+@defform[(define/wind-pre* f pre)]{
+  Definition form of @racket[wind-pre*]. Binds @racket[id] as a wound form of @racket[f], with @racket[post] used
+  as the input transforming function.
+  @examples[#:eval the-eval
+    (define/wind-pre* symbol-shorter
+      < (λ~> symbol->string string-length))
+    (symbol-shorter 'foo 'bazz 'barrr)
+    (symbol-shorter 'blah 'bloo)
+    ]}
+
+@defform[(define/wind-post* f post)]{
+  Definition form of @racket[wind-post*]. Binds @racket[id] as a wound form of @racket[f], with @racket[post] used
+  as the output transforming function.
+  @examples[#:eval the-eval
+    (define/wind-post* firstf partition first)
+    (firstf symbol? '(1 2 3 a b 4 5 c 6 d e))
+    ]}
