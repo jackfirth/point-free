@@ -1,7 +1,7 @@
 #lang scribble/manual
 
 @(require scribble/eval
-          (for-label "main.rkt"
+          (for-label point-free
                      racket/base
                      racket/function
                      racket/list))
