@@ -53,7 +53,7 @@ A few macros for defining point-free functions with these composition operators 
     
     (first-even? '(2 3 4)) ;; #t
     (symbol-length-even? 'foo) ;; #f
-    (pythagoras? 3 4) ;; 5
+    (pythagoras 3 4) ;; 5
 
 This package also supplies a way to compose functions that know how many arguments they have. The `arg-count` form takes an expression that produces a function and an identifier, and binds that identifier to contain the number of arguments given to the produced function in the expression:
 
