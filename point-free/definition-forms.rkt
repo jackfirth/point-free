@@ -7,7 +7,7 @@
          define/wind-pre*
          define/wind-post*)
 
-(require "parallel.composition.rkt")
+(require "parallel-composition.rkt")
 
 ;; Helper macro for defining lots of simple macros
 (define-syntax-rule (define-syntaxes-rule [pattern expansion] ...)
