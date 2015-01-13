@@ -44,13 +44,13 @@ of function composition.
   given to it does.
   @examples[#:eval the-eval
     ((thrush add1 positive?) 0)
-    ((thrush string->list length even?) "foo")
     ((thrush + even?) 1 2 3)
     ]}
 
 @deftogether[(@defproc[(thrush+ [v any?] [f procedure?] ...) any?]
               @defproc[(~> [v any?] [f procedure?] ...) any?])]{
   Returns the result of giving @racket[v] to @racket[(thrush f ...)].
+    ((thrush string->list length even?) "foo")
   This is for expressing data-flow logic in a pointful manner rather
   than a point-free manner, in cases where constructing the intermediate
   thrushed procedure and applying it as two seperate instances would be
@@ -240,8 +240,7 @@ These forms allow for short definitions of point-free functions using @racket[wi
   Definition form of @racket[wind-post]. Binds @racket[id] as a wound form of @racket[f], with @racket[(post ...)]
   used as the output transforming functions.
   @examples[#:eval the-eval
-    (define/wind-post first-true-last-false
-      (wind-post partition first last))
+    (define/wind-post first-true-last-false partition first last)
     (first-true-last-false symbol? '(1 2 a b 3 c 4 5 6 d))
     ]}
 
