@@ -45,12 +45,12 @@ of function composition.
   @examples[#:eval the-eval
     ((thrush add1 positive?) 0)
     ((thrush + even?) 1 2 3)
+    ((thrush string->list length even?) "foo")
     ]}
 
 @deftogether[(@defproc[(thrush+ [v any?] [f procedure?] ...) any?]
               @defproc[(~> [v any?] [f procedure?] ...) any?])]{
   Returns the result of giving @racket[v] to @racket[(thrush f ...)].
-    ((thrush string->list length even?) "foo")
   This is for expressing data-flow logic in a pointful manner rather
   than a point-free manner, in cases where constructing the intermediate
   thrushed procedure and applying it as two seperate instances would be
