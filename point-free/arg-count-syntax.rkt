@@ -24,7 +24,8 @@
                       #'(lambda args (let ([n (length args)]) (apply identity args))))
   (check-syntax-datum (expand-once #'(define/arg-count num-args n identity))
                       #'(define num-args (arg-count n identity)))
-  (test-begin
-   (check-eqv? ((arg-count n (const n)) 0 0) 2)
-   (define/arg-count num-args n (const n))
-   (check-eqv? (num-args 'foo 'bar 'baz) 3)))
+  (define num-args1
+    (arg-count n (const n)))
+  (check-eqv? (num-args1 0 0) 2)
+  (define/arg-count num-args2 n (const n))
+  (check-eqv? (num-args2 'foo 'bar 'baz) 3))
