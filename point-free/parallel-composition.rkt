@@ -72,4 +72,6 @@
   (define first-str-add1sub1* (compose first-value str-add1sub1*))
   (define second-str-add1sub1* (compose second-value str-add1sub1*))
   (check string=? (first-str-add1sub1* 0 0) "1")
-  (check string=? (second-str-add1sub1* 0 0) "-1"))
+  (check string=? (second-str-add1sub1* 0 0) "-1")
+  (define pythagoras (wind* + sqr sqrt))
+  (check-eqv? (pythagoras 3 4) 5))
