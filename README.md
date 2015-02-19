@@ -1,4 +1,4 @@
-point-free
+point-free [![Build Status](https://travis-ci.org/jackfirth/point-free.svg?branch=master)](https://travis-ci.org/jackfirth/point-free) [![Coverage Status](https://coveralls.io/repos/jackfirth/point-free/badge.svg)](https://coveralls.io/r/jackfirth/point-free)
 ==========
 
 [Documentation](http://pkg-build.racket-lang.org/doc/point-free/index.html)
