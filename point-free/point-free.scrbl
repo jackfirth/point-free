@@ -77,7 +77,7 @@ of function composition.
 
 @section{Define forms of function composition}
 
-@defform[(define/compose name func-expr)]{
+@defform[(define/compose name func-expr ...)]{
   Defines @racket[name] as the result of @racket[(compose func-expr ...)].
   @examples[#:eval the-eval
     (define/compose symbol-length string-length symbol->string)
