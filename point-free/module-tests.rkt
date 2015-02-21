@@ -1,6 +1,5 @@
 #lang racket
 
-(require rackunit/docs-complete
-         predicates)
+(require rackunit/docs-complete)
 
 (check-docs 'predicates)
