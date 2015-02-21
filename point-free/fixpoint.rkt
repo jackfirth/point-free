@@ -2,7 +2,8 @@
 
 (require rackunit)
 
-(provide until-fixpoint)
+(provide until-fixpoint
+         fixpoint?)
 
 (define (until-fixpoint f)
   (define (fixpoint-f v)
@@ -21,3 +22,10 @@
   (check-eqv? (fixpoint-f 3) 3)
   (check-eqv? (fixpoint-f 10) 9)
   (check-eqv? (fixpoint-f 20) 18))
+
+(define (fixpoint? f v)
+  (eq? (f v) v))
+
+(module+ test
+  (check-true (fixpoint? abs 10))
+  (check-false (fixpoint? abs -10)))
