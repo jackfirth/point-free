@@ -270,3 +270,25 @@ These forms allow for short definitions of point-free functions using @racket[wi
     (define/wind-post* firstf partition first)
     (firstf symbol? '(1 2 3 a b 4 5 c 6 d e))
     ]}
+
+@section{Fixpoint functions}
+
+These functions manipulate other functions based on their @italic{fixpoints} - the values that can be given to the
+function such that the function does nothing and returns just those values. The fixpoints of the function @racket[abs]
+for example, are all nonnegative numbers. The absolute value of a nonnegative number @code{x} is just @racket{x}.
+
+@defproc[((until-fixpoint [f (-> any/c any/c)]) [v any/c]) any]{
+  Returns a procedure that accepts one argument @racket[v] and applies @racket[f] to it. If the result @racket[(f v)]
+  is not @racket[eq?] to @racket[v] (that is, if @racket[v] is not a fixpoint of @racket[f]), then @racket[f] is
+  applied to @racket[(f v)], and again and again recursively until it reaches a value that is a fixpoint of @racket[f].
+  @examples[#:eval the-eval
+    (define (count-once-to-ten n)
+      (if (< n 10)
+          (begin (displayln n)
+                 (add1 n))
+          n))
+    (count-once-to-ten 5)
+    (define count-to-ten (until-fixpoint count-once-to-ten))
+    (count-to-ten 5)
+    ]}
+
