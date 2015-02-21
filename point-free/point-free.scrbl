@@ -277,10 +277,19 @@ These functions manipulate other functions based on their @italic{fixpoints} - t
 function such that the function does nothing and returns just those values. The fixpoints of the function @racket[abs]
 for example, are all nonnegative numbers. The absolute value of a nonnegative number @code{x} is just @racket{x}.
 
+@defproc[(fixpoint? [f (-> any/c any/c)] [v any/c]) boolean?]{
+  Returns @racket[#t] if @racket[v] is a fixpoint of @racket[f], that is if @racket[(f v)] is @racket[eq?] to
+  @racket[v]. This function must necessarily call @racket[f], so avoid using side-effecting functions and expensive
+  functions unless they memoize or cache their calls.
+  @examples[#:eval the-eval
+    (fixpoint? abs 10)
+    (fixpoint? abs -10)
+    ]}
+
 @defproc[((until-fixpoint [f (-> any/c any/c)]) [v any/c]) any]{
-  Returns a procedure that accepts one argument @racket[v] and applies @racket[f] to it. If the result @racket[(f v)]
-  is not @racket[eq?] to @racket[v] (that is, if @racket[v] is not a fixpoint of @racket[f]), then @racket[f] is
-  applied to @racket[(f v)], and again and again recursively until it reaches a value that is a fixpoint of @racket[f].
+  Returns a procedure that accepts one argument @racket[v] and applies @racket[f] to it. If @racket[v] is not a
+  fixpoint of @racket[f], then @racket[f] is applied to @racket[(f v)], and again and again recursively until it
+  reaches a value that is a fixpoint of @racket[f].
   @examples[#:eval the-eval
     (define (count-once-to-ten n)
       (if (< n 10)
