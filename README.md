@@ -1,5 +1,4 @@
-[![Stories in Ready](https://badge.waffle.io/jackfirth/point-free.png?label=ready&title=Ready)](https://waffle.io/jackfirth/point-free)
-point-free [![Build Status](https://travis-ci.org/jackfirth/point-free.svg?branch=master)](https://travis-ci.org/jackfirth/point-free) [![Coverage Status](https://coveralls.io/repos/jackfirth/point-free/badge.svg)](https://coveralls.io/r/jackfirth/point-free)
+point-free [![Build Status](https://travis-ci.org/jackfirth/point-free.svg?branch=master)](https://travis-ci.org/jackfirth/point-free) [![Coverage Status](https://coveralls.io/repos/jackfirth/point-free/badge.svg)](https://coveralls.io/r/jackfirth/point-free) [![Stories in Ready](https://badge.waffle.io/jackfirth/point-free.png?label=ready&title=Ready)](https://waffle.io/jackfirth/point-free)
 ==========
 
 [Documentation](http://pkg-build.racket-lang.org/doc/point-free/index.html)
