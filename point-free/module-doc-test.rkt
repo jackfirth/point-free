@@ -11,6 +11,10 @@
          module->undocumented-exported-names
          has-docs?)
 
+;; The funcitons used here to list module documentation
+;; info should be in their own seperate package ideally.
+;; Once that's done, they'll be tested/expanded there.
+
 (define xref (load-collections-xref))
 
 (define (phase-exported-names phase-exports)
