@@ -40,7 +40,7 @@ Another included primitive composition function is `thrush`, which is the revers
 ```racket
 (define symbol-length-even?
   (thrush symbol->string
-          string->number
+          string-length
           even?))
 (symbol-length-even? 'foo) ;; #f
 (symbol-length-even? 'barbaz) ;; #t
