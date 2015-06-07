@@ -13,7 +13,7 @@ Racket functions have symmetry between output and input values. This means that 
 
 There are two ways to compose two functions of one input and one output `f` and `g`. You can chain the output of `g` to the input of `f` with standard function composition, as in `(compose f g)`. However, you can also make a function that accepts two values, gives one to `f` and one to `g`, and returns both outputs as two values. Basically, functions can be composed in *series* or in *parallel*.
 
-This package defines several convenient ways of composing functions to make point-free logic clean and simple to express. Composing functions in parallel can be down with the `join` function:
+This package defines several convenient ways of composing functions to make point-free logic clean and simple to express. Composing functions in parallel can be done with the `join` function:
 
 ```racket
 (define add1-sub1 (join add1 sub1))
