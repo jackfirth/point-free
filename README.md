@@ -6,7 +6,7 @@ point-free [![Build Status](https://travis-ci.org/jackfirth/point-free.svg?branc
 Collection of forms and higher order functions that assist function composition and definition of functions in a point-free style. Point-free functions are functions that don't name their arguments, they're created purely by composing other functions. For example:
 
 ```racket
-(define number->symbol (compose symbol->string number->string))
+(define number->symbol (compose string->symbol number->string))
 ```
 
 Racket functions have symmetry between output and input values. This means that functions can accept multiple values and return multiple output values. This makes point-free functions more difficult to define, because regular function composition can be unwieldy. Contrast this to a language like Haskell, where functions can only accept and return one value.
