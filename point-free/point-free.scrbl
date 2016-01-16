@@ -3,6 +3,7 @@
 @(require scribble/eval
           (for-label point-free
                      racket/base
+                     racket/contract
                      racket/function
                      racket/list))
 
@@ -75,6 +76,24 @@ of function composition.
     ((thrush* "foo" "bar") string-append string-length)
     ]}
 
+@deftogether[(@defproc[(thrush-and [f procedure?] ...) procedure?]
+              @defproc[(λand~> [f procedure?] ...) procedure?])]{
+  Like @racket[thrush], performs reverse function composition. However, @racket[thrush-and] includes
+  the short-circuiting behavior of @racket[and], so if any intermediate function returns @racket[#f],
+  the entire chain returns @racket[#f] without continuing to thread the value through the chain.
+  @examples[#:eval the-eval
+    (define find-odd (curry findf odd?))
+    ((thrush-and find-odd add1) '(2 3 4))
+    ((thrush-and find-odd add1) '(2 4 6))
+    ]}
+
+@deftogether[(@defproc[(thrush+-and [v any/c] [f procedure?] ...) any]
+              @defproc[(and~> [v any/c] [f procedure?] ...) any]
+              @defproc[((thrush*-and [v any/c] ...) [f procedure?] ...) any]
+              @defproc[((and~>* [v any/c] ...) [f procedure?] ...) any])]{
+  Like @racket[thrush+] and @racket[thrush*], but with the short-circuiting behavior of
+  @racket[thrush-and].}
+
 @section{Define forms of function composition}
 
 @defform[(define/compose name func-expr ...)]{
@@ -91,6 +110,14 @@ of function composition.
     (define/thrush symbol-length symbol->string string-length)
     (symbol-length 'foo)
     (symbol-length 'bazzz)
+    ]}
+
+@defform[(define/thrush-and name func-expr ...)]{
+  Defines @racket[name] as the result of @racket[(thrush-and func-expr ...)].
+  @examples[#:eval the-eval
+    (define/thrush-and inc-odd (curry findf odd?) add1)
+    (inc-odd '(2 3 4))
+    (inc-odd '(2 4 6))
     ]}
 
 @section{Point-free argument counts}
