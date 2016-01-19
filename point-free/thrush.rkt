@@ -1,15 +1,21 @@
 #lang racket
 
-
 (require rackunit)
 
 (provide thrush
          thrush+
          thrush*
          define/thrush
-         ~>
-         λ~>
-         ~>*)
+         thrush-and
+         thrush+-and
+         thrush*-and
+         define/thrush-and
+         (rename-out [thrush λ~>]
+                     [thrush+ ~>]
+                     [thrush* ~>*]
+                     [thrush-and λand~>]
+                     [thrush+-and and~>]
+                     [thrush*-and and~>*]))
 
 (define (thrush . fs)
   (apply compose (reverse fs)))
@@ -35,6 +41,22 @@
 (define-syntax-rule (define/thrush id expr ...)
   (define id (thrush expr ...)))
 
-(define λ~> thrush)
-(define ~> thrush+)
-(define ~>* thrush*)
+(define (thrush-and . fs)
+  (define ((apply-and f) v)
+    (and v (f v)))
+  (apply compose1 (map apply-and (reverse fs))))
+
+(module+ test
+  (define (find-odd lst) (findf odd? lst))
+  (define inc-odd (thrush-and find-odd add1))
+  (check-equal? (inc-odd '(2 3 4)) 4)
+  (check-equal? (inc-odd '(2 4 6)) #f))
+
+(define (thrush+-and v . fs)
+  ((apply thrush-and fs) v))
+
+(define ((thrush*-and . vs) . fs)
+  (apply (apply thrush-and fs) vs))
+
+(define-syntax-rule (define/thrush-and id expr ...)
+  (define id (thrush-and expr ...)))
