@@ -1,6 +1,4 @@
-#lang racket
-
-(require rackunit)
+#lang racket/base
 
 (provide join
          join*
@@ -10,6 +8,10 @@
          wind-pre*
          wind-post*
          wind*)
+
+(module+ test
+  (require racket/math
+           rackunit))
 
 ;; Function form of flat application - (app + 2 3) is equivalent to (+ 2 3).
 ;; Used to simplify logic in joining functins

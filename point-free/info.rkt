@@ -1,4 +1,11 @@
 #lang info
 
-(define name "point-free")
-(define scribblings '(("point-free.scrbl" ())))
+(define collection 'multi)
+
+(define deps
+  '("point-free-doc"
+    "point-free-lib"))
+(define build-deps
+  '())
+
+(define implies deps)
