@@ -10,7 +10,7 @@
 @title{point-free}
 
 @(define the-eval (make-base-eval))
-@(the-eval '(require "main.rkt"
+@(the-eval '(require point-free
                      racket/function
                      racket/list))
 
@@ -327,4 +327,3 @@ for example, are all nonnegative numbers. The absolute value of a nonnegative nu
     (define count-to-ten (until-fixpoint count-once-to-ten))
     (count-to-ten 5)
     ]}
-

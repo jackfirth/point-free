@@ -1,4 +1,4 @@
-#lang racket
+#lang racket/base
 
 (require "arg-count-syntax.rkt"
          "parallel-composition.rkt"

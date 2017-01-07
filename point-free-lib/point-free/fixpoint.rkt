@@ -1,9 +1,10 @@
-#lang racket
-
-(require rackunit)
+#lang racket/base
 
 (provide until-fixpoint
          fixpoint?)
+
+(module+ test
+  (require rackunit))
 
 (define (until-fixpoint f)
   (define (fixpoint-f v)

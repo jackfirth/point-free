@@ -1,6 +1,4 @@
-#lang racket
-
-(require rackunit)
+#lang racket/base
 
 (provide thrush
          thrush+
@@ -16,6 +14,9 @@
                      [thrush-and λand~>]
                      [thrush+-and and~>]
                      [thrush*-and and~>*]))
+
+(module+ test
+  (require rackunit))
 
 (define (thrush . fs)
   (apply compose (reverse fs)))

@@ -1,4 +1,4 @@
-#lang racket
+#lang racket/base
 
 (provide define/compose
          arg-count
@@ -16,7 +16,8 @@
   (define id (arg-count n expr)))
 
 (module+ test
-  (require rackunit)
+  (require racket/function
+           rackunit)
   (define-binary-check (check-syntax-datum stx-actual stx-expected)
     (equal? (syntax->datum stx-actual)
             (syntax->datum stx-expected)))
