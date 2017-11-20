@@ -25,7 +25,7 @@ source code: @url["https://github.com/jackfirth/point-free"]
 
 @section{Thrush Combinator}
 
-The @italic{thrush combinator} is a higher order function that
+The @hyperlink["https://en.wikipedia.org/wiki/To_Mock_a_Mockingbird"]{@italic{thrush combinator}} is a higher order function that
 reverses the order of application. It can be seen as the reverse
 of function composition.
 
