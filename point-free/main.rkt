@@ -4,11 +4,13 @@
          "parallel-composition.rkt"
          "thrush.rkt"
          "definition-forms.rkt"
-         "fixpoint.rkt")
+         "fixpoint.rkt"
+         "partial.rkt")
 
 (provide
  (all-from-out "arg-count-syntax.rkt"
                "parallel-composition.rkt"
                "thrush.rkt"
                "definition-forms.rkt"
-               "fixpoint.rkt"))
+               "fixpoint.rkt"
+               "partial.rkt"))

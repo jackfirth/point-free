@@ -1,4 +1,6 @@
 point-free/compiled/*
+point-free/doc/*
+point-free/*~
 point-free/*.bak
 point-free/*.html
 point-free/*.css
