@@ -328,3 +328,34 @@ for example, are all nonnegative numbers. The absolute value of a nonnegative nu
     (count-to-ten 5)
     ]}
 
+@section{Partially Applying Functions}
+
+@defproc[((partial [f (-> A ... B ... C)] [a A] ...) [b B] ...)
+         C]{
+  Partially applies @racket[f] with a prefix of its arguments,
+  including keyword arguments.
+
+  @examples[#:eval the-eval
+    (define lstab (partial list 'a 'b))
+    (lstab)
+    (lstab 1 2 3)
+    (define (f #:a a #:b b #:c [c 0] #:d [d 0])
+      (+ a b c d))
+    (define fac (partial f #:a 1 #:c 2))
+    (fac #:b 3)
+    (fac #:b 4 #:d 5)
+    (procedure-keywords f)
+    (procedure-keywords fac)
+  ]}
+
+@defproc[((partialr [f (-> A ... B ... C)] [b B] ...) [A A] ...)
+         C]{
+  Partially applies @racket[f] with a postfix of its arguments,
+  including keyword arguments.
+
+  @examples[#:eval the-eval
+    (define lstab (partialr list 'a 'b))
+    (lstab)
+    (lstab 1 2 3)
+  ]}
+
